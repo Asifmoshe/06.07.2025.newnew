@@ -1,9 +1,14 @@
 
 import sqlite3
+import os
+
+#check if file exists
+if os.path.exists('db1.db'):
+    os.remove('db1.db') # delete file
 
 # connect to db
-# if does not exist -> create + connet
-# if does exist -> connect
+# if it does not exist -> create + connet
+# if it does exist -> connect
 conn = sqlite3.connect('db1.db')
 
 # create in memory
@@ -54,10 +59,15 @@ data = [
     (5, 'David', 27, 'Texas', 85000.00),
     (6, 'Kim', 22, 'South-Hall', 45000.00),
 ]
+
 conn.executemany('''
 INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
 VALUES (?,?,?,?,?);
 ''', data)
+
+cursor.execute('''
+UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
+''')
 
 conn.commit() # write changes
 
