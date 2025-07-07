@@ -65,9 +65,26 @@ INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
 VALUES (?,?,?,?,?);
 ''', data)
 
+import datetime
+time_now = datetime.datetime.now().strftime('%H:%M:%S')
+address_with_time = 'Texas ' + time_now
+
 cursor.execute('''
-UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
+UPDATE COMPANY SET ADDRESS = ? WHERE ID = ?;
+''', (address_with_time, 6))
+
+cursor.execute('''
+DELETE FROM COMPANY WHERE ID = ?
+''', (5, ))
+
+cursor.execute('''
+SELECT * FROM COMPANY;
 ''')
+
+print('SELECT * FROM COMPANY result=')
+result = cursor.fetchall()
+for row in result:
+    print(row)
 
 conn.commit() # write changes
 
